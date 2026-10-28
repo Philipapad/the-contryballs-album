@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My PNG Album</title>
+<style>
+:root{--ink:#202044;--muted:#686887;--pink:#ff5fa2;--yellow:#ffd75e;--blue:#68d5ff;--purple:#9b82ff;--green:#7ce6b2;--paper:#fffdf7}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",system-ui,sans-serif;color:var(--ink);background:radial-gradient(circle at 10% 8%,#ffe1ef 0,transparent 28%),radial-gradient(circle at 90% 10%,#d9f6ff 0,transparent 30%),linear-gradient(135deg,#fff9dc,#f4eaff 55%,#e5faff);min-height:100vh}
+header{padding:28px 20px 18px;max-width:1200px;margin:auto}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{width:60px;height:60px;border-radius:20px;background:linear-gradient(135deg,var(--pink),var(--purple),var(--blue));display:grid;place-items:center;font-size:30px;box-shadow:0 8px 20px #7f67b744;transform:rotate(-4deg)}
+h1{margin:0;font-size:clamp(28px,4vw,42px);letter-spacing:-1.4px}
+.subtitle{margin:5px 0 0;color:var(--muted)}
+main{max-width:1200px;margin:auto;padding:0 20px 40px}
+.panel{background:#ffffffc9;border:2px solid #fff;border-radius:24px;padding:18px;box-shadow:0 10px 30px #50408012;backdrop-filter:blur(8px)}
+.add-grid{display:grid;grid-template-columns:1.1fr 1fr auto;gap:12px;align-items:end}
+.field label{display:block;font-weight:700;font-size:13px;margin:0 0 7px 3px}
+input[type=text],input[type=search]{width:100%;border:2px solid #e6e2fa;background:white;border-radius:14px;padding:13px 14px;font:inherit;outline:none}
+input:focus{border-color:var(--purple);box-shadow:0 0 0 3px #9b82ff22}
+.filebox{display:flex;align-items:center;gap:10px;min-height:48px;padding:8px 12px;background:white;border:2px dashed #c7baf9;border-radius:14px;font-weight:600;cursor:pointer}
+.filebox input{width:1px;max-width:1px;opacity:.01;position:absolute}
+button{border:0;border-radius:14px;padding:13px 17px;font:700 14px "Segoe UI",system-ui;cursor:pointer;transition:transform .15s,filter .15s}
+button:hover{transform:translateY(-1px);filter:brightness(1.02)}
+.primary{background:linear-gradient(100deg,var(--pink),#ff9c79);color:#fff;box-shadow:0 6px 14px #ff5fa233}
+.secondary{background:#eeeaff;color:#4d3a9b}
+.danger{background:#fff0f3;color:#b72e58;padding:9px 11px}
+.tools{display:flex;gap:10px;align-items:center;margin:20px 0 14px;flex-wrap:wrap}
+.tools input{flex:1;min-width:180px}
+.count{font-weight:800;background:#fff;border:2px solid white;border-radius:99px;padding:10px 14px;color:#6551a8}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:16px}
+.card{background:#fff;border:2px solid #fff;border-radius:22px;overflow:hidden;box-shadow:0 8px 22px #51407b13;position:relative;transition:transform .18s}
+.card:hover{transform:translateY(-3px) rotate(-.25deg)}
+.preview{height:190px;display:grid;place-items:center;padding:14px;background:linear-gradient(135deg,#fff0f6,#f2efff,#e7faff);background-image:linear-gradient(45deg,#e7e4f0 25%,transparent 25%),linear-gradient(-45deg,#e7e4f0 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#e7e4f0 75%),linear-gradient(-45deg,transparent 75%,#e7e4f0 75%);background-size:20px 20px;background-position:0 0,0 10px,10px -10px,-10px 0}
+.preview img{max-width:100%;max-height:100%;object-fit:contain;transform:translateY(-26px);filter:drop-shadow(0 5px 6px #4b3d5a22)}
+.card-body{padding:13px 14px 14px}
+.card-title{font-weight:800;overflow-wrap:anywhere;font-size:16px;margin:0 0 5px}
+.card-meta{font-size:12px;color:var(--muted);margin-bottom:12px}
+.card-actions{display:flex;gap:8px}
+.card-actions button{flex:1;padding:9px 10px}
+.empty{grid-column:1/-1;text-align:center;padding:48px 20px;border:2px dashed #c7baf9;border-radius:24px;background:#ffffff90}
+.empty .emoji{font-size:48px}
+.empty h2{margin:8px 0}
+.empty p{margin:0;color:var(--muted)}
+footer{text-align:center;color:#777397;font-size:12px;padding:24px 12px}
+.notice{margin-top:12px;font-size:12px;color:var(--muted)}
+.hidden{display:none!important}
+@media(max-width:720px){.add-grid{grid-template-columns:1fr}.brand{align-items:flex-start}.logo{flex-shrink:0}.gallery{grid-template-columns:repeat(auto-fill,minmax(155px,1fr))}.preview{height:155px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="logo">🖼️</div><div><h1>My PNG Album ✨</h1><p class="subtitle">Your little corner for pictures, icons and creations.</p></div></div>
+</header>
+<main>
+  <section class="panel">
+    <form id="addForm">
+      <div class="add-grid">
+        <div class="field"><label for="pngFile">1. Choose a PNG image</label><label class="filebox" for="pngFile"><span>🌈</span><span id="fileLabel">Choose a PNG…</span><input id="pngFile" type="file" accept="image/png,.png" required></label></div>
+        <div class="field"><label for="imageName">2. Give it a name</label><input id="imageName" type="text" maxlength="100" placeholder="e.g. Sparky Icon" required></div>
+        <button class="primary" type="submit">＋ Add to album</button>
+      </div>
+      <div class="notice">Saved on this PC in this browser. Your album stays here when you close and reopen it.</div>
+    </form>
+  </section>
+  <div class="tools">
+    <input id="search" type="search" placeholder="🔎 Search your album…">
+    <span id="count" class="count">0 pictures</span>
+    <button id="exportBtn" class="secondary" type="button">⬇ Export backup</button>
+    <label class="secondary" style="display:inline-flex;align-items:center;gap:7px;cursor:pointer;padding:13px 15px;border-radius:14px;font-weight:700;font-size:14px">⬆ Import backup<input id="importFile" type="file" accept="application/json,.json" hidden></label>
+  </div>
+  <section id="gallery" class="gallery" aria-live="polite"></section>
+</main>
+<footer>Made for your pictures 💖 · Works offline · Keep an exported backup if your browser data might be cleared.</footer>
+<script>
+(() => {
+  const DB_NAME='MyPngAlbumDB', STORE='pictures', DB_VERSION=1;
+  const $=id=>document.getElementById(id);
+  let db;
+  const openDB=()=>new Promise((resolve,reject)=>{
+    const req=indexedDB.open(DB_NAME,DB_VERSION);
+    req.onupgradeneeded=()=>{const d=req.result;if(!d.objectStoreNames.contains(STORE)){const s=d.createObjectStore(STORE,{keyPath:'id',autoIncrement:true});s.createIndex('created','created')}};
+    req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);
+  });
+  const all=()=>new Promise((resolve,reject)=>{const r=db.transaction(STORE,'readonly').objectStore(STORE).getAll();r.onsuccess=()=>resolve(r.result.sort((a,b)=>b.created-a.created));r.onerror=()=>reject(r.error)});
+  const put=item=>new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put(item);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)});
+  const add=item=>new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readwrite');const r=tx.objectStore(STORE).add(item);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)});
+  const remove=id=>new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).delete(Number(id));tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)});
+  const fmt=n=>n<1024?`${n} B`:n<1048576?`${(n/1024).toFixed(1)} KB`:`${(n/1048576).toFixed(1)} MB`;
+  function safe(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+  async function render(){
+    const items=await all(), q=$('search').value.trim().toLowerCase();
+    const shown=items.filter(x=>x.name.toLowerCase().includes(q));
+    $('count').textContent=`${items.length} ${items.length===1?'picture':'pictures'}`;
+    const g=$('gallery');g.innerHTML='';
+    if(!shown.length){g.innerHTML=`<div class="empty"><div class="emoji">${items.length?'🔎':'🎨'}</div><h2>${items.length?'No matches found':'Your album is waiting!'}</h2><p>${items.length?'Try another search.':'Choose a PNG above and give it a name to add your first picture.'}</p></div>`;return}
+    for(const item of shown){
+      const card=document.createElement('article');card.className='card';
+      card.innerHTML=`<div class="preview"><img alt="${safe(item.name)}" src="${item.data}"></div><div class="card-body"><p class="card-title">${safe(item.name)}</p><div class="card-meta">${fmt(item.size)} · PNG</div><div class="card-actions"><button class="secondary rename" type="button">✏️ Rename</button><button class="danger delete" type="button">🗑 Delete</button></div></div>`;
+      card.querySelector('.rename').addEventListener('click',async()=>{const name=prompt('What would you like to call this picture?',item.name);if(name===null)return;const clean=name.trim();if(!clean){alert('Please enter a name.');return}item.name=clean.slice(0,100);await put(item);render()});
+      card.querySelector('.delete').addEventListener('click',async()=>{if(confirm(`Delete “${item.name}” from your album?`)){await remove(item.id);render()}});
+      g.appendChild(card);
+    }
+  }
+  $('pngFile').addEventListener('change',()=>{const f=$('pngFile').files[0];$('fileLabel').textContent=f?f.name:'Choose a PNG…';if(f&&!$('imageName').value.trim())$('imageName').value=f.name.replace(/\.png$/i,'')});
+  $('addForm').addEventListener('submit',async e=>{
+    e.preventDefault();const f=$('pngFile').files[0],name=$('imageName').value.trim();
+    if(!f||!name)return;
+    if(f.type!=='image/png'&&!f.name.toLowerCase().endsWith('.png')){alert('Please choose a PNG image.');return}
+    if(f.size>40*1024*1024){alert('That PNG is over 40 MB. Please choose a smaller image.');return}
+    const reader=new FileReader();
+    reader.onload=async()=>{try{await add({name:name.slice(0,100),data:reader.result,size:f.size,created:Date.now()});$('addForm').reset();$('fileLabel').textContent='Choose a PNG…';await render()}catch(err){alert('Could not save this picture. Try exporting a backup, or use a smaller PNG.')}};
+    reader.onerror=()=>alert('Could not read that image. Please try again.');reader.readAsDataURL(f);
+  });
+  $('search').addEventListener('input',render);
+  $('exportBtn').addEventListener('click',async()=>{
+    const items=await all();
+    const backup=JSON.stringify({app:'My PNG Album',version:1,pictures:items},null,2);
+    if(window.pywebview && window.pywebview.api && window.pywebview.api.save_backup){
+      try{
+        const result=await window.pywebview.api.save_backup(backup);
+        if(result==='saved') alert('Backup saved successfully!');
+        else if(result==='error') alert('Could not save the backup. Please try again.');
+      }catch(e){alert('Could not save the backup. Please try again.')}
+    } else {
+      const blob=new Blob([backup],{type:'application/json'});
+      const url=URL.createObjectURL(blob);const a=document.createElement('a');
+      a.href=url;a.download='my-png-album-backup.json';a.click();
+      setTimeout(()=>URL.revokeObjectURL(url),1000);
+    }
+  });
+  $('importFile').addEventListener('change',async()=>{const f=$('importFile').files[0];if(!f)return;try{const obj=JSON.parse(await f.text());if(!obj||!Array.isArray(obj.pictures))throw Error('Invalid');if(!confirm(`Import ${obj.pictures.length} picture(s)? Existing pictures will stay; imported pictures will be added as copies.`))return;for(const p of obj.pictures){if(typeof p.name==='string'&&typeof p.data==='string'&&p.data.startsWith('data:image/'))await add({name:p.name.slice(0,100),data:p.data,size:Number(p.size)||0,created:Date.now()})}await render();alert('Backup imported!')}catch(e){alert('That file does not look like a My PNG Album backup.')}finally{$('importFile').value=''}});
+  openDB().then(d=>{db=d;render()}).catch(()=>{document.querySelector('main').innerHTML='<section class="panel"><h2>Could not open the album</h2><p>Please open this file in a current version of Edge or Chrome.</p></section>'});
+})();
+</script>
+</body>
+</html>
